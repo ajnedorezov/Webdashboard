@@ -3,42 +3,28 @@
 
 <head>
     <meta charset="utf-8">
-    <title>FRC341 Dashboard</title>
+    <title>FRC Dashboard</title>
     <link href="css/style.css" rel="stylesheet">
-    
 </head>
-
-<script src="components/tuning.js"></script>
-<script src="components/multicamera.js"></script>
-<link rel="stylesheet" href="css/multicamera.css">
 
 <body>
     <div id="timer">2:15</div>
-
     <header>
         <!-- Tells whether robot is connected to dashboard. -->
         <div id="robot-state">Unknown state</div>
     </header>
-
     <!-- You'll need to mess around with the CSS of #camera (found in css/style.css) to get it to work.
         More explanation in that CSS rule. -->
     <div id="camera"></div>
-    
-    
     <!-- The main body of the dashboard, by default contains the gyro monitor and the robot diagram -->
     <article>
-        <!-- The button which will be clicked to open and close the tuning interface -->
-		<button id="tuning-button">Tuning</button>
-		
-		<!-- The actual tuning window -->
-		<div id="tuning">
-		    <input type="text" placeholder="Property" id="name">
-		    <input type="text" placeholder="Value" id="value">
-		    <button id="set">Set</button>
-		    <button id="get">Get</button>
-		</div>
-    
-        
+        <!-- Gyroscope -->
+        <svg id="gyro">
+            <circle cx="65" cy="65" r="63"></circle>
+            <circle cx="65" cy="65" r="40"></circle>
+            <rect id="gyro-arm" x="60" y="5" width="10" height="80"></rect>
+            <text id="gyro-number" x="70" y="115">0º</text>
+        </svg>
         <!-- Example robot diagram, arm moves when encoder value changes -->
         <svg id="robot-diagram" width="341" height="550">
             <text x="200" y="50" text-anchor="middle">Example SVG Robot Diagram</text>
@@ -65,14 +51,6 @@
     </article>
     <!-- The sidebar of the dashboard. Designed for smaller control elements like selection boxes and small buttons. -->
     <aside>
-    	<!-- Gyroscope -->
-        <svg id="gyro">
-            <circle cx="65" cy="65" r="63"></circle>
-            <circle cx="65" cy="65" r="50"></circle>
-            <rect id="gyro-arm" x="60" y="5" width="10" height="60"></rect>
-            <text id="gyro-number" x="70" y="100" text-anchor="middle">0º</text>
-        </svg>
-        
         <!-- Example button which toggles /SmartDashboard/exampleValue NetworkTables value.
             The <p> below then says the value. -->
         <div id="example-section">

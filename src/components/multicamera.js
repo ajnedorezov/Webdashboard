@@ -3,8 +3,11 @@ ui.camera = {
 	viewer: document.getElementById('camera'),
 	id: 0,
 	srcs: [ // Will default to first camera
-        'roborio-341-frc.local:5800/?action=stream',
-        'roborio-341-frc.local:5801/?action=stream'
+        'INSERT FIRST CAMERA STREAM SOURCE',
+        'INSERT SECOND CAMERA STREAM SOURCE',
+        'INSERT THIRD CAMERA STREAM SOURCE',
+        'INSERT FOURTH CAMERA STREAM SOURCE',
+        'ETC'
     ]
 };
 

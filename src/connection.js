@@ -41,7 +41,7 @@ function onRobotConnection(connected) {
         address.value = 'roborio-341-frc.local';
         address.focus();
         address.setSelectionRange(8, 12);
-        ipc.send('connect', address.value);
+	   ipc.send('connect', address.value);
         // On click try to connect and disable the input and the button
         /*connect.onclick = () => {
             ipc.send('connect', address.value);

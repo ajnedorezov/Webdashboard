@@ -11,10 +11,7 @@ let ui = {
         number: document.getElementById('gyro-number')
     },
     robotDiagram: {
-    	armAngle: 0,
-    	wristAngle: 0,
-        arm: document.getElementById('arm-forearm')
-        wrist: document.getElementByID('arm-wrist')
+        arm: document.getElementById('robot-arm')
     },
     example: {
         button: document.getElementById('example-button'),
@@ -33,48 +30,25 @@ let updateGyro = (key, value) => {
     if (ui.gyro.visualVal < 0) {
         ui.gyro.visualVal += 360;
     }
-    if (ui.gyro.visualVal > 180){
-    	ui.gyro.visualVal -= 360;
-    }
     ui.gyro.arm.style.transform = `rotate(${ui.gyro.visualVal}deg)`;
     ui.gyro.number.innerHTML = ui.gyro.visualVal + 'º';
 };
-NetworkTables.addKeyListener('/SmartDashboard/drive/navx/yaw', updateGyro);
+NetworkTables.addKeyListener('/SmartDashboard/Gryo/Yaw', updateGyro);
 
-
-function drawArm(){
-	// 0 is all the way back, 1200 is 45 degrees forward. We don't want it going past that.
+// The following case is an example, for a robot with an arm at the front.
+NetworkTables.addKeyListener('/SmartDashboard/arm/encoder', (key, value) => {
+    // 0 is all the way back, 1200 is 45 degrees forward. We don't want it going past that.
     if (value > 1140) {
         value = 1140;
     }
     else if (value < 0) {
         value = 0;
     }
-    
     // Calculate visual rotation of arm
-    var shoulderAngle = ui.robotDiagram.shoulderAngle * 3 / 20 - 45;
-    var wristAngle = ui.robotDiagram.wristAngle * 3 / 20 - 45;
+    var armAngle = value * 3 / 20 - 45;
     // Rotate the arm in diagram to match real arm
-    ui.robotDiagram.arm.style.transform = `rotate(${shoulderAngle}deg)`;
-    ui.robotDiagram.wrist.style.transform = `rotate(${wristAngle}deg)`;
-}
-
-// The following case is an example, for a robot with an arm at the front.
-NetworkTables.addKeyListener('/SmartDashboard/arm/shoulderangle', (key, value) => {
-	// Shoulder - 0 is horizontal, 90 is vertical
-	// Wrist - 0 is inline with upper arm
-	ui.robotDiagram.shoulderAngle = value;
-	drawArm();
+    ui.robotDiagram.arm.style.transform = `rotate(${armAngle}deg)`;
 });
-
-//The following case is an example, for a robot with an arm at the front.
-NetworkTables.addKeyListener('/SmartDashboard/arm/wristAngle', (key, value) => {
-	// Shoulder - 0 is horizontal, 90 is vertical
-	// Wrist - 0 is inline with upper arm
-    ui.robotDiagram.wristAngle = value;
-    drawArm();
-});
-
 
 // This button is just an example of triggering an event on the robot by clicking a button.
 NetworkTables.addKeyListener('/SmartDashboard/example_variable', (key, value) => {
@@ -120,7 +94,7 @@ ui.gyro.container.onclick = function() {
     // Store previous gyro val, will now be subtracted from val for callibration
     ui.gyro.offset = ui.gyro.val;
     // Trigger the gyro to recalculate value.
-    updateGyro('/SmartDashboard/drive/navx/yaw', ui.gyro.val);
+    updateGyro('/SmartDashboard/yaw', ui.gyro.val);
 };
 // Update NetworkTables when autonomous selector is changed
 ui.autoSelect.onchange = function() {

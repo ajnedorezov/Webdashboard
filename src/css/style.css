@@ -66,7 +66,7 @@ header {
     left: 30vw;
     color: white;
 }
-#camera {
+camera {
     padding: 0;
     position: fixed;
     bottom: 0;
@@ -76,7 +76,7 @@ header {
     overflow: hidden;
     background-color: #333;
     /* You'll need to mess with this a bit to get your camera to work. Replace the url with a live-updating image feed from your camera. Using other camera streaming systems will require some tweaking. */
-    background-image: url('roborio-341-frc.local:5800/?action=stream');
+    background-image: url('http://roborio-4027-frc.local:1181/?action=stream');
 }
 article {
     top: 0;

@@ -19,11 +19,11 @@
     <!-- The main body of the dashboard, by default contains the gyro monitor and the robot diagram -->
     <article>
         <!-- Gyroscope -->
-        <svg id="gyro">
+         <svg id="gyro">
             <circle cx="65" cy="65" r="63"></circle>
-            <circle cx="65" cy="65" r="40"></circle>
-            <rect id="gyro-arm" x="60" y="5" width="10" height="80"></rect>
-            <text id="gyro-number" x="70" y="115">0º</text>
+            <circle cx="65" cy="65" r="50"></circle>
+            <rect id="gyro-arm" x="60" y="5" width="10" height="60"></rect>
+            <text id="gyro-number" x="70" y="100" text-anchor="middle">0º</text>
         </svg>
         <!-- Example robot diagram, arm moves when encoder value changes -->
         <svg id="robot-diagram" width="341" height="550">
@@ -31,6 +31,7 @@
             <rect x="58" y="50" width="1" height="500" style=""></rect>
             <rect x="340" y="50" width="1" height="500" style=""></rect>
             <g id="arm-forearm" transform="translate(277, 325) rotate(135,0,5)">
+            	<text id="shoulder-number" x="100" y="-5" text-anchor="middle">0º</text>
             	<rect  x="0" y="0" width="210" height="10"></rect>
             	<circle cx="205" cy="5" r="10"></circle>
             	<g id="arm-wrist" transform="translate(205, 0) rotate(45, 0, 5)">                  

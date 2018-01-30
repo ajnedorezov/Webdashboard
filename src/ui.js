@@ -11,7 +11,9 @@ let ui = {
         number: document.getElementById('gyro-number')
     },
     robotDiagram: {
-        arm: document.getElementById('robot-arm')
+    	shoulderVal: 0,
+    	arm: document.getElementById('arm-forearm'),
+        armAngle: document.getElementById('shoulder-number')        
     },
     example: {
         button: document.getElementById('example-button'),
@@ -35,9 +37,31 @@ let updateGyro = (key, value) => {
 };
 NetworkTables.addKeyListener('/SmartDashboard/Gryo/Yaw', updateGyro);
 
+let updateShoulder = (key, value) => {
+	ui.robotDiagram.armAngle.innerHTML = Math.floor(value) + 'º';
+	ui.robotDiagram.shoulderVal = Math.floor(value);
+	
+	/*
+    if (value > 1140) {
+        value = 1140;
+    }
+    else if (value < 0) {
+        value = 0;
+    }*/
+    // Calculate visual rotation of arm
+    var armAngle = Math.floor(value);// * 3 / 20 - 45;
+    // Rotate the arm in diagram to match real arm
+    //ui.robotDiagram.arm.setAttribute("transform", "rotate(" + armAngle + ")");
+    ui.robotDiagram.arm.style.transform = `rotate(${ui.robotDiagram.shoulderVal}deg)`;
+}
+NetworkTables.addKeyListener('/SmartDashboard/Arm/ShoulderAngle', updateShoulder);
+
+/*
 // The following case is an example, for a robot with an arm at the front.
-NetworkTables.addKeyListener('/SmartDashboard/arm/encoder', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/Arm/ShoulderAngle', (key, value) => {
     // 0 is all the way back, 1200 is 45 degrees forward. We don't want it going past that.
+
+    ui.robotDiagram.armAngle.innerHTML = Math.floor(value) + 'º';
     if (value > 1140) {
         value = 1140;
     }
@@ -45,10 +69,10 @@ NetworkTables.addKeyListener('/SmartDashboard/arm/encoder', (key, value) => {
         value = 0;
     }
     // Calculate visual rotation of arm
-    var armAngle = value * 3 / 20 - 45;
+    var armAngle = value;// * 3 / 20 - 45;
     // Rotate the arm in diagram to match real arm
     ui.robotDiagram.arm.style.transform = `rotate(${armAngle}deg)`;
-});
+});*/
 
 // This button is just an example of triggering an event on the robot by clicking a button.
 NetworkTables.addKeyListener('/SmartDashboard/example_variable', (key, value) => {

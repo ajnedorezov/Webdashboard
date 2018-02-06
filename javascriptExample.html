@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Input test</title>
+  
+
+<script type="text/javascript">
+function doRectClick(){
+
+  var myrect = document.getElementById('gyro-arm');
+  var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    myrect.style.fill = 'rgb(' + r + ', ' + g + ' , ' + b + ')';
+
+}
+</script>
+
+<p>
+  <label for="nAngle" 
+     style="display: inline-block; width: 240px; text-align: right">
+     angle = <span id="nAngle-value">…</span>
+  </label>
+  <input type="range" min="0" max="360" id="nAngle">
+</p>
+
+<p>
+  <svg id="gyro">
+    <circle cx="65" cy="65" r="63" style="fill: red; stroke: blue; stroke-width: 2" onclick="doRectClick();"
+></circle>
+    <circle cx="65" cy="65" r="50" style="fill: white; stroke: blue; stroke-width: 2"></circle>
+    <rect id="gyro-arm" x="60" y="5" width="10" height="60"></rect>
+    <text id="gyro-number" x="70" y="100" text-anchor="middle">0º</text>
+    </svg>
+
+	<svg id="robot-diagram" width="370" height="550">
+            <text x="200" y="50" text-anchor="middle">Example SVG Robot Diagram</text>
+            <rect x="58" y="50" width="1" height="500" style=""></rect>
+            <rect x="340" y="50" width="1" height="500" style=""></rect>
+            <g id="arm-forearm" transform="translate(277, 325) rotate(135,0,5)">
+            	<text id="shoulder-number" x="100" y="-5" text-anchor="middle">0º</text>
+            	<rect  x="0" y="0" width="210" height="10"></rect>
+            	<circle cx="205" cy="5" r="10"></circle>
+            	<g id="arm-wrist" transform="translate(205, 0) rotate(45, 0, 5)">                  
+            		<rect  x="0" y="0" width="55" height="10"></rect>
+           		</g>
+           	</g>
+            
+            <circle id="shoulder" cx="277" cy="325" r="25"></circle>
+            <rect id="arm-mast" x="270" y="325" width="15" height="175"></rect>
+<!-- 			<rect id="robot-arm" x="5" y="375" width="80" height="10"></rect> -->
+            <circle cx="125" cy="527" r="15"></circle>
+            <circle cx="175" cy="530" r="15"></circle>
+            <circle cx="225" cy="530" r="15"></circle>            
+            <circle cx="275" cy="527" r="15"></circle>
+            <rect x="100" y="500" rx="10" ry="10" width="200" height="30"></rect>
+            <text id="team" x="200" y="525" text-anchor="middle">341</text>
+        </svg>
+</P>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+var width = 600;
+var height = 300;
+ 
+var holder = d3.select("body")
+      .append("svg")
+      .attr("width", width)    
+      .attr("height", height); 
+
+// draw the text
+holder.append("text")
+  .style("fill", "black")
+  .style("font-size", "56px")
+  .attr("dy", ".35em")
+  .attr("text-anchor", "middle")
+  .attr("transform", "translate(300,150) rotate(0)")
+  .text("d3noob.org");
+
+// when the input range changes update the angle 
+d3.select("#nAngle").on("input", function() {
+  update(+this.value);
+});
+
+// Initial starting angle of the text 
+update(0);
+
+// update the element
+function update(nAngle) {
+
+  // adjust the text on the range slider
+  d3.select("#nAngle-value").text(nAngle);
+  d3.select("#nAngle").property("value", nAngle);
+  
+  // rotate the gyro handle
+  var myrect = document.getElementById('gyro-arm');
+  myrect.setAttribute("transform", "rotate("+nAngle+", 65, 65)");
+
+  // rotate the arm
+  var arm = document.getElementById('arm-forearm');
+  arm.setAttribute("transform", "translate(277, 325) rotate("+nAngle+", 0, 0)");
+  document.getElementById('shoulder-number').innerHTML = Math.floor(nAngle);
+
+  // rotate the text
+  holder.select("text") 
+    .attr("transform", "translate(300,150) rotate("+nAngle+")");
+
+
+
+}
+
+</script>

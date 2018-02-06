@@ -12,8 +12,10 @@ let ui = {
     },
     robotDiagram: {
     	shoulderVal: 0,
+    	wristVal: 0,
     	arm: document.getElementById('arm-forearm'),
-        armAngle: document.getElementById('shoulder-number')        
+        armAngle: document.getElementById('shoulder-number'),
+        wrist: document.getElementById('arm-wrist')
     },
     example: {
         button: document.getElementById('example-button'),
@@ -51,10 +53,30 @@ let updateShoulder = (key, value) => {
     // Calculate visual rotation of arm
     var armAngle = Math.floor(value);// * 3 / 20 - 45;
     // Rotate the arm in diagram to match real arm
-    //ui.robotDiagram.arm.setAttribute("transform", "rotate(" + armAngle + ")");
-    ui.robotDiagram.arm.style.transform = `rotate(${ui.robotDiagram.shoulderVal}deg)`;
+    ui.robotDiagram.arm.setAttribute("transform", transform="translate(277,325) rotate("+armAngle+", 0, 0)");
+    //ui.robotDiagram.arm.style.transform = `rotate(${ui.robotDiagram.shoulderVal}deg)`;
 }
 NetworkTables.addKeyListener('/SmartDashboard/Arm/ShoulderAngle', updateShoulder);
+
+let updateWrist = (key, value) => {
+	ui.robotDiagram.wristVal = Math.floor(value);
+	
+	/*
+    if (value > 1140) {
+        value = 1140;
+    }
+    else if (value < 0) {
+        value = 0;
+    }*/
+	
+    // Calculate visual rotation of arm
+    var armAngle = Math.floor(value);// * 3 / 20 - 45;
+
+    // Rotate the wrist in diagram to match real wrist
+    ui.robotDiagram.wrist.setAttribute("transform", transform="translate(205,0) rotate("+armAngle+", 0, 5)");
+}
+NetworkTables.addKeyListener('/SmartDashboard/Arm/ShoulderAngle', updateShoulder);
+
 
 /*
 // The following case is an example, for a robot with an arm at the front.
